@@ -2,8 +2,11 @@
   "name": "url-title-preview",
   "displayName": "URL Title Preview",
   "description": "Hover over a URL to see its title",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
+  "publisher": "baruchiro",
+  "repository": "baruchiro/url-title-preview",
+  "icon": "./logo.png",
   "engines": {
     "vscode": "^1.87.0"
   },

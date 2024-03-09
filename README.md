@@ -21,12 +21,6 @@ This extension requires Visual Studio Code to run.
 
 Please report any issues on the [GitHub repository](https://github.com/baruchiro/url-title-preview/issues/new).
 
-## Release Notes
-
-### 1.0.0
-
-Initial release of URL Title Tooltip Extension.
-
 ## Contributing
 
 If you have any problems or suggestions, please [open an issue](https://github.com/baruchiro/url-title-preview/issues/new) on the GitHub repository.
