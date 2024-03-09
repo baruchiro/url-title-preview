@@ -13,6 +13,10 @@ This extension for Visual Studio Code allows you to see the title of a webpage w
 2. Open a text document and hover over a URL.
 3. A tooltip will appear showing the title of the webpage at the URL.
 
+## Demo
+
+![Demo](./demo.gif)
+
 ## Requirements
 
 This extension requires Visual Studio Code to run.
