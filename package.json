@@ -2,13 +2,13 @@
   "name": "url-title-preview",
   "displayName": "URL Title Preview",
   "description": "Hover over a URL to see its title",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "publisher": "baruchiro",
-  "repository": "baruchiro/url-title-preview",
+  "repository": "https://github.com/baruchiro/url-title-preview",
   "icon": "./logo.png",
   "engines": {
-    "vscode": "^1.87.0"
+    "vscode": "^1.70.0"
   },
   "categories": [
     "Other"
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "@types/vscode": "^1.87.0",
+    "@types/vscode": "^1.70.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vscode/test-cli": "^0.0.6",
