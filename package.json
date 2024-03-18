@@ -2,7 +2,7 @@
   "name": "url-title-preview",
   "displayName": "URL Title Preview",
   "description": "Hover over a URL to see its title",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "publisher": "baruchiro",
   "repository": "https://github.com/baruchiro/url-title-preview",
