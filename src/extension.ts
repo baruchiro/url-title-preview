@@ -37,30 +37,5 @@ const fetchTitle = async (url: string): Promise<string> => {
   return match ? match[1] : url;
 };
 
-class URLHoverProvider implements vscode.HoverProvider {
-  private _linkPattern = /(http|https):\/\/[^\s]*\b/g;
-
-  async provideHover(
-    document: vscode.TextDocument,
-    position: vscode.Position
-  ): Promise<vscode.Hover> {
-    const range = document.getWordRangeAtPosition(position, this._linkPattern);
-    if (!range) {
-      // @ts-ignore - docs allow returning null
-      return null;
-    }
-
-    const url = document.getText(range);
-    const title = await this._fetchTitle(url);
-    return new vscode.Hover(`Title: ${title}`);
-  }
-
-  private async _fetchTitle(url: string): Promise<string> {
-    const res = await axios.get(url);
-    const match = res.data.match(/<title>(.*?)<\/title>/i);
-    return match ? match[1] : url;
-  }
-}
-
 // This method is called when your extension is deactivated
 export function deactivate() {}
