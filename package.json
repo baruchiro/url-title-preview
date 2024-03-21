@@ -2,13 +2,13 @@
   "name": "url-title-preview",
   "displayName": "URL Title Preview",
   "description": "Hover over a URL to see its title",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "license": "MIT",
   "publisher": "baruchiro",
-  "repository": "baruchiro/url-title-preview",
+  "repository": "https://github.com/baruchiro/url-title-preview",
   "icon": "./logo.png",
   "engines": {
-    "vscode": "^1.87.0"
+    "vscode": "^1.70.0"
   },
   "categories": [
     "Other"
@@ -17,19 +17,13 @@
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "url-title-preview.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
+  "contributes": {  },
   "capabilities": {
     "hoverPRovider": true
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
+    "publish": "vsce publish",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
@@ -39,15 +33,16 @@
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "@types/vscode": "^1.87.0",
+    "@types/vscode": "^1.70.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vscode/test-cli": "^0.0.6",
     "@vscode/test-electron": "^2.3.9",
     "eslint": "^8.56.0",
-    "typescript": "^5.3.3"
+    "typescript": ">=4.7.4,<5.4.0"
   },
   "dependencies": {
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "cheerio": "^1.0.0-rc.12"
   }
 }
