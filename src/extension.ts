@@ -47,13 +47,14 @@ const formatHover = (meta: MetaTags) => {
   return content;
 };
 
+const maxImageWidth = 200;
 const calculateLengthOfImage = (rows: string[]) => {
   if (rows.length === 0) {
-    return 200;
+    return maxImageWidth;
   }
 
   const longestRow = rows.reduce((a, b) => (a.length > b.length ? a : b));
-  return longestRow.length * 7;
+  return Math.min(longestRow.length * 7, maxImageWidth);
 };
 
 // This method is called when your extension is deactivated
