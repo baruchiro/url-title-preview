@@ -14,6 +14,9 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: "file" }, { provideHover }));
 }
 
+// A Map to store cached hover content
+const hoverContentCache: Map<string, vscode.Hover> = new Map();
+
 const linkPattern = /(http|https):\/\/[^\s]*\b/g;
 const provideHover = async (document: vscode.TextDocument, position: vscode.Position): Promise<vscode.Hover> => {
   const range = document.getWordRangeAtPosition(position, linkPattern);
@@ -23,11 +26,29 @@ const provideHover = async (document: vscode.TextDocument, position: vscode.Posi
   }
 
   const url = document.getText(range);
-  const res = await axios.get(url);
-  const meta = getMetaTags(res.data);
-  const hoverContent = formatHover(meta);
-  console.log(hoverContent.value);
-  return new vscode.Hover(hoverContent);
+
+  // Check if hover content for the URL is already cached
+  if (hoverContentCache.has(url)) {
+    const vsHoverContent = hoverContentCache.get(url)!;
+    return vsHoverContent;
+  }
+
+  try {
+    const response = await axios.get(url);
+    const meta = getMetaTags(response.data);
+    const hoverContent = formatHover(meta);
+
+    // Cache hover content for the URL
+    const vsHoverContent = new vscode.Hover(hoverContent);
+    hoverContentCache.set(url, vsHoverContent);
+
+    console.log(hoverContent.value);
+    return vsHoverContent;
+  } catch (error) {
+    console.error('Error fetching URL data:', error);
+    const errorMassage = "Unable to fetch URL data. Please try again later.";
+    return new vscode.Hover(errorMassage);
+  }
 };
 
 const formatHover = (meta: MetaTags) => {
@@ -56,6 +77,9 @@ const calculateLengthOfImage = (rows: string[]) => {
   const longestRow = rows.reduce((a, b) => (a.length > b.length ? a : b));
   return Math.min(longestRow.length * 7, maxImageWidth);
 };
+
+
+
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
