@@ -1,0 +1,14 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: yarn
+      - run: prettier --check .
