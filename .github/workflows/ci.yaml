@@ -22,7 +22,7 @@ jobs:
 
       - name: Get VS Code versions
         run: curl --output vscode-stable-versions.json https://update.code.visualstudio.com/api/releases/stable
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: .vscode-test/
           key: vscode-test-${{ hashFiles('vscode-stable-versions.json') }}
