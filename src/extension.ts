@@ -1,7 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
 import axios from 'axios';
+import * as vscode from 'vscode';
+import * as cache from './cache';
 import { MetaTags, getMetaTags } from './meta-tags';
 
 // This method is called when your extension is activated
@@ -14,8 +15,6 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: 'file' }, { provideHover }));
 }
 
-const hoverContentCache: Map<string, vscode.Hover> = new Map();
-
 const linkPattern = /(http|https):\/\/[^\s]*\b/g;
 const provideHover = async (document: vscode.TextDocument, position: vscode.Position): Promise<vscode.Hover> => {
   const range = document.getWordRangeAtPosition(position, linkPattern);
@@ -26,27 +25,26 @@ const provideHover = async (document: vscode.TextDocument, position: vscode.Posi
 
   const url = document.getText(range);
 
-  const cachedVsHoverContent = getHoverCatch(url);
-  if (cachedVsHoverContent !== undefined) {
-    return cachedVsHoverContent;
-  }
-
   try {
-    const response = await axios.get(url);
-    const meta = getMetaTags(response.data);
-    const hoverContent = formatHover(meta);
+    const hoverContent = await cache.getOrCreate(url, () => fetchUrlContent(url));
+    console.log(hoverContent.value);
 
     // Cache hover content for the URL
     const vsHoverContent = new vscode.Hover(hoverContent);
-    setHoverCatch(url, vsHoverContent);
-
-    console.log(hoverContent.value);
     return vsHoverContent;
   } catch (error) {
     console.error('Error fetching URL data:', error);
     const errorMassage = 'Unable to fetch URL data. Please try again later.';
     return new vscode.Hover(errorMassage);
   }
+};
+
+const fetchUrlContent = async (url: string) => {
+  const response = await axios.get(url);
+  const meta = getMetaTags(response.data);
+  const hoverContent = formatHover(meta);
+
+  return hoverContent;
 };
 
 const formatHover = (meta: MetaTags) => {
@@ -76,17 +74,7 @@ const calculateLengthOfImage = (rows: string[]) => {
   return Math.min(longestRow.length * 7, maxImageWidth);
 };
 
-function setHoverCatch(url: string, vsHoverContent: vscode.Hover) {
-  hoverContentCache.set(url, vsHoverContent);
-}
-
-function getHoverCatch(url: string): vscode.Hover | undefined {
-  // Check if hover content for the URL is already cached
-  if (hoverContentCache.has(url)) {
-    return hoverContentCache.get(url)!;
-  }
-  return undefined;
-}
-
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  cache.clear();
+}
