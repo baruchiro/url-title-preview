@@ -19,4 +19,13 @@ jobs:
       - run: yarn
       - run: yarn compile
       - run: yarn lint
+
+      - name: Get VS Code versions
+        run: curl --output vscode-stable-versions.json https://update.code.visualstudio.com/api/releases/stable
+      - uses: actions/cache@v1
+        with:
+          path: .vscode-test/
+          key: vscode-test-${{ hashFiles('vscode-stable-versions.json') }}
+          restore-keys: vscode-test-
+
       - run: xvfb-run -a yarn vscode-test
