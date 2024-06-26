@@ -19,4 +19,4 @@ jobs:
       - run: yarn
       - run: yarn compile
       - run: yarn lint
-      - run: yarn vscode-test
+      - run: xvfb-run -a yarn vscode-test
