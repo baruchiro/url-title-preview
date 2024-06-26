@@ -29,6 +29,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
+    "prettier": "prettier --write .",
     "test": "vscode-test"
   },
   "devDependencies": {

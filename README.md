@@ -3,7 +3,7 @@
 [![url-title-preview](https://img.shields.io/static/v1?label=vscode%20extension&message=baruchiro.url-title-preview&color=eff1f3&logo=visualstudioappcenter&link=https://marketplace.visualstudio.com/items?itemName=baruchiro.url-title-preview)](https://marketplace.visualstudio.com/items?itemName=baruchiro.url-title-preview)
 ![GitHub License](https://img.shields.io/github/license/baruchiro/url-title-preview)
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/baruchiro.url-title-preview)
-![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/baruchiro.url-title-preview)  
+![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/baruchiro.url-title-preview)
 
 This extension for Visual Studio Code allows you to see the title of a webpage when you hover over a URL.
 

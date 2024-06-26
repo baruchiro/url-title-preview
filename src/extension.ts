@@ -1,8 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from "vscode";
-import axios from "axios";
-import { MetaTags, getMetaTags } from "./meta-tags";
+import * as vscode from 'vscode';
+import axios from 'axios';
+import { MetaTags, getMetaTags } from './meta-tags';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
   // This line of code will only be executed once when your extension is activated
   console.log('extension "url-title-preview" is now active!');
 
-  context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: "file" }, { provideHover }));
+  context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: 'file' }, { provideHover }));
 }
 
 const linkPattern = /(http|https):\/\/[^\s]*\b/g;
@@ -42,7 +42,7 @@ const formatHover = (meta: MetaTags) => {
     const width = calculateLengthOfImage(lines);
     lines.push(`<img src="${meta.image}" alt="${meta.title}" width="${width}" />`);
   }
-  const content = new vscode.MarkdownString("$(globe) " + lines.join("  \n"), true);
+  const content = new vscode.MarkdownString('$(globe) ' + lines.join('  \n'), true);
   content.supportHtml = true;
   return content;
 };
