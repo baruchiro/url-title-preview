@@ -1,7 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
 import axios from 'axios';
+import * as vscode from 'vscode';
+import * as cache from './cache';
 import { MetaTags, getMetaTags } from './meta-tags';
 
 // This method is called when your extension is activated
@@ -23,11 +24,27 @@ const provideHover = async (document: vscode.TextDocument, position: vscode.Posi
   }
 
   const url = document.getText(range);
-  const res = await axios.get(url);
-  const meta = getMetaTags(res.data);
+
+  try {
+    const hoverContent = await cache.getOrCreate(url, () => fetchUrlContent(url));
+    console.log(hoverContent.value);
+
+    // Cache hover content for the URL
+    const vsHoverContent = new vscode.Hover(hoverContent);
+    return vsHoverContent;
+  } catch (error) {
+    console.error('Error fetching URL data:', error);
+    const errorMassage = 'Unable to fetch URL data. Please try again later.';
+    return new vscode.Hover(errorMassage);
+  }
+};
+
+const fetchUrlContent = async (url: string) => {
+  const response = await axios.get(url);
+  const meta = getMetaTags(response.data);
   const hoverContent = formatHover(meta);
-  console.log(hoverContent.value);
-  return new vscode.Hover(hoverContent);
+
+  return hoverContent;
 };
 
 const formatHover = (meta: MetaTags) => {
@@ -58,4 +75,6 @@ const calculateLengthOfImage = (rows: string[]) => {
 };
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  cache.clear();
+}
