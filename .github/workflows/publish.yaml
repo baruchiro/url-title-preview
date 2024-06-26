@@ -40,3 +40,11 @@ jobs:
         run: yarn deploy
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Create GitHub Release
+        run: |
+          gh release create v${{ github.event.inputs.newVersion }} \
+            --title "Release v${{ github.event.inputs.newVersion }}" \
+            --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
